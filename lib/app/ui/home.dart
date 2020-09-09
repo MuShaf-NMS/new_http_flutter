@@ -52,12 +52,53 @@ class _HomeState extends State<Home> {
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView.builder(
                   itemBuilder: (context, i) {
-                    return Tampil(
-                        snapshot.data[i].id,
-                        snapshot.data[i].nama,
-                        snapshot.data[i].alamat,
-                        snapshot.data[i].t_lahir,
-                        snapshot.data[i].jl);
+                    return Card(
+                      margin: EdgeInsets.all(15),
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Tampil(
+                                snapshot.data[i].id,
+                                snapshot.data[i].nama,
+                                snapshot.data[i].alamat,
+                                snapshot.data[i].t_lahir,
+                                snapshot.data[i].jl),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                RaisedButton(
+                                    child: Text('Edit'),
+                                    onPressed: () async {
+                                      var result = await Navigator.push(
+                                          _scaffoldState.currentContext,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  UpdateSiswa(
+                                                    id: snapshot.data[i].id,
+                                                  )));
+                                      if (result != null) {
+                                        setState(() {});
+                                      }
+                                    }),
+                                Padding(padding: EdgeInsets.only(right: 5)),
+                                RaisedButton(
+                                    child: Text('Hapus'),
+                                    onPressed: () {
+                                      apiServices
+                                          .delete(snapshot.data[i].id)
+                                          .then((value) {
+                                        if (value) {
+                                          setState(() {});
+                                        }
+                                      });
+                                    })
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
                   },
                   itemCount: snapshot.data.length,
                 );
@@ -95,101 +136,69 @@ class _TampilState extends State<Tampil> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(15),
-      child: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(
+    return Column(
+      children: <Widget>[
+        Row(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  'Id : ',
-                  style: TextStyle(fontSize: size),
-                ),
-                Text(
-                  widget.id.toString(),
-                  style: TextStyle(fontSize: size),
-                )
-              ],
+            Text(
+              'Id : ',
+              style: TextStyle(fontSize: size),
             ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Nama : ',
-                  style: TextStyle(fontSize: size),
-                ),
-                Text(
-                  widget.nama,
-                  style: TextStyle(fontSize: size),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Alamat : ',
-                  style: TextStyle(fontSize: size),
-                ),
-                Text(
-                  widget.alamat,
-                  style: TextStyle(fontSize: size),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Tanggal lahir : ',
-                  style: TextStyle(fontSize: size),
-                ),
-                Text(
-                  widget.t_lahir,
-                  style: TextStyle(fontSize: size),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Jenis kelamin : ',
-                  style: TextStyle(fontSize: size),
-                ),
-                Text(
-                  widget.jl,
-                  style: TextStyle(fontSize: size),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                RaisedButton(
-                    child: Text('Edit'),
-                    onPressed: () async {
-                      var result = await Navigator.push(
-                          _scaffoldState.currentContext,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => UpdateSiswa(
-                                    id: widget.id,
-                                  )));
-                      if (result != null) {
-                        setState(() {});
-                      }
-                    }),
-                RaisedButton(
-                    child: Text('Hapus'),
-                    onPressed: () {
-                      apiServices.delete(widget.id).then((value) {
-                        if (value) {
-                          setState(() {});
-                        }
-                      });
-                    })
-              ],
+            Text(
+              widget.id.toString(),
+              style: TextStyle(fontSize: size),
             )
           ],
         ),
-      ),
+        Row(
+          children: <Widget>[
+            Text(
+              'Nama : ',
+              style: TextStyle(fontSize: size),
+            ),
+            Text(
+              widget.nama,
+              style: TextStyle(fontSize: size),
+            )
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Text(
+              'Alamat : ',
+              style: TextStyle(fontSize: size),
+            ),
+            Text(
+              widget.alamat,
+              style: TextStyle(fontSize: size),
+            )
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Text(
+              'Tanggal lahir : ',
+              style: TextStyle(fontSize: size),
+            ),
+            Text(
+              widget.t_lahir,
+              style: TextStyle(fontSize: size),
+            )
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Text(
+              'Jenis kelamin : ',
+              style: TextStyle(fontSize: size),
+            ),
+            Text(
+              widget.jl,
+              style: TextStyle(fontSize: size),
+            )
+          ],
+        ),
+      ],
     );
   }
 }

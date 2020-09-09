@@ -13,7 +13,7 @@ class _AddSiswaState extends State<AddSiswa> {
   TextEditingController controllerNama = TextEditingController();
   TextEditingController controllerAlamat = TextEditingController();
   TextEditingController controllerT_lahir = TextEditingController();
-  TextEditingController controllerJl = TextEditingController();
+  String jl;
   ApiServices apiServices;
   @override
   void initState() {
@@ -45,18 +45,40 @@ class _AddSiswaState extends State<AddSiswa> {
                 controller: controllerT_lahir,
                 label: 'Tanggal lahir',
               ),
-              FormSiswa(
-                controller: controllerJl,
-                label: 'Jenis kelamin',
+              Padding(padding: EdgeInsets.all(5)),
+              Text(
+                'Jenis Kelamain',
+                style: TextStyle(fontSize: 16),
+              ),
+              ListTile(
+                title: Text('L'),
+                leading: Radio(
+                    value: 'L',
+                    groupValue: jl,
+                    onChanged: (value) {
+                      jl = value;
+                      setState(() {});
+                    }),
+              ),
+              ListTile(
+                title: Text('P'),
+                leading: Radio(
+                    value: 'P',
+                    groupValue: jl,
+                    onChanged: (value) {
+                      jl = value;
+                      setState(() {});
+                    }),
               ),
               IconButton(
                   icon: Icon(Icons.file_upload),
                   onPressed: () {
+                    setState(() {});
                     Siswa siswa = Siswa(
                         nama: controllerNama.text,
                         alamat: controllerAlamat.text,
                         t_lahir: controllerT_lahir.text,
-                        jl: controllerJl.text);
+                        jl: jl);
                     apiServices.postData(siswa).then((value) {
                       if (value) {
                         Navigator.pop(

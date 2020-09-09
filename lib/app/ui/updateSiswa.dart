@@ -15,12 +15,12 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
   TextEditingController controllerNama;
   TextEditingController controllerAlamat;
   TextEditingController controllerT_lahir;
-  TextEditingController controllerJl;
-  void setSiswa(String nama, alamat, t_lahir, jl) {
+  String jl;
+  void setSiswa(String nama, alamat, t_lahir, jlSiswa) {
     controllerNama = TextEditingController(text: nama);
     controllerAlamat = TextEditingController(text: alamat);
     controllerT_lahir = TextEditingController(text: t_lahir);
-    controllerJl = TextEditingController(text: jl);
+    jl = jlSiswa;
   }
 
   ApiServices apiServices;
@@ -61,9 +61,30 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
                               controller: controllerT_lahir,
                               label: 'Tanggal lahir',
                             ),
-                            FormSiswa(
-                              controller: controllerJl,
-                              label: 'Jenis kelamin',
+                            Padding(padding: EdgeInsets.all(5)),
+                            Text(
+                              'Jenis Kelamain',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            ListTile(
+                              title: Text('L'),
+                              leading: Radio(
+                                  value: 'L',
+                                  groupValue: jl,
+                                  onChanged: (value) {
+                                    jl = value;
+                                    setState(() {});
+                                  }),
+                            ),
+                            ListTile(
+                              title: Text('P'),
+                              leading: Radio(
+                                  value: 'P',
+                                  groupValue: jl,
+                                  onChanged: (value) {
+                                    jl = value;
+                                    setState(() {});
+                                  }),
                             ),
                             IconButton(
                                 icon: Icon(Icons.file_upload),
@@ -72,7 +93,7 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
                                       nama: controllerNama.text,
                                       alamat: controllerAlamat.text,
                                       t_lahir: controllerT_lahir.text,
-                                      jl: controllerJl.text);
+                                      jl: jl);
                                   apiServices
                                       .putData(siswa, widget.id)
                                       .then((value) {

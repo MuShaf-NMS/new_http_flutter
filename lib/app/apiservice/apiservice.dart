@@ -15,18 +15,14 @@ class ApiServices {
 
   Future<Siswa> getSiswa(int id) async {
     final response = await http.get('$url/siswa/$id');
-    print(response.body);
     if (response.statusCode == 200) {
       return getOne(response.body);
     }
   }
 
   Future<bool> postData(Siswa data) async {
-    print(data);
-    print(dataToJson(data));
     final response = await http.post('$url/add-siswa',
         headers: {"content-type": "application/json"}, body: dataToJson(data));
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -35,11 +31,8 @@ class ApiServices {
   }
 
   Future<bool> putData(Siswa data, int id) async {
-    print(data);
-    print(dataToJson(data));
     final response = await http.put('$url/siswa/$id',
         headers: {"content-type": "application/json"}, body: dataToJson(data));
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -50,7 +43,6 @@ class ApiServices {
   Future<bool> delete(int id) async {
     final resposne = await http.delete('$url/delete-siswa/$id',
         headers: {"content-type": "application/json"});
-    print(resposne.statusCode);
     if (resposne.statusCode == 200) {
       return true;
     } else {
