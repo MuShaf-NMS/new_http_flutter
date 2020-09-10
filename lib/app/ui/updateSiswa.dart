@@ -6,7 +6,8 @@ final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class UpdateSiswa extends StatefulWidget {
   int id;
-  UpdateSiswa({this.id});
+  String token;
+  UpdateSiswa({this.id, this.token});
   @override
   _UpdateSiswaState createState() => _UpdateSiswaState();
 }
@@ -42,7 +43,7 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
                 padding: EdgeInsets.all(15),
                 child: Center(
                   child: FutureBuilder(
-                      future: apiServices.getSiswa(widget.id),
+                      future: apiServices.getSiswa(widget.id, widget.token),
                       builder: (BuildContext context,
                           AsyncSnapshot<Siswa> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
@@ -72,8 +73,11 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
                                   value: 'L',
                                   groupValue: jl,
                                   onChanged: (value) {
+                                    print(jl);
                                     jl = value;
+                                    print(jl);
                                     setState(() {});
+                                    print(jl);
                                   }),
                             ),
                             ListTile(
@@ -82,8 +86,11 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
                                   value: 'P',
                                   groupValue: jl,
                                   onChanged: (value) {
+                                    print(jl);
                                     jl = value;
+                                    print(jl);
                                     setState(() {});
+                                    print(jl);
                                   }),
                             ),
                             IconButton(
@@ -95,7 +102,7 @@ class _UpdateSiswaState extends State<UpdateSiswa> {
                                       t_lahir: controllerT_lahir.text,
                                       jl: jl);
                                   apiServices
-                                      .putData(siswa, widget.id)
+                                      .putData(siswa, widget.id, widget.token)
                                       .then((value) {
                                     if (value) {
                                       Navigator.pop(

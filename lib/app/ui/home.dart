@@ -7,6 +7,8 @@ import 'package:http_flutter/app/ui/updateSiswa.dart';
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class Home extends StatefulWidget {
+  String token;
+  Home({this.token});
   @override
   _HomeState createState() => _HomeState();
 }
@@ -35,7 +37,9 @@ class _HomeState extends State<Home> {
                 var result = await Navigator.push(
                     _scaffoldState.currentContext,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => AddSiswa()));
+                        builder: (BuildContext context) => AddSiswa(
+                              token: widget.token,
+                            )));
                 if (result != null) {
                   setState(() {});
                 }
@@ -46,7 +50,7 @@ class _HomeState extends State<Home> {
       body: Container(
         child: Center(
           child: FutureBuilder(
-            future: apiServices.getData(),
+            future: apiServices.getData(widget.token),
             builder:
                 (BuildContext context, AsyncSnapshot<List<Siswa>> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -76,6 +80,7 @@ class _HomeState extends State<Home> {
                                               builder: (BuildContext context) =>
                                                   UpdateSiswa(
                                                     id: snapshot.data[i].id,
+                                                    token: widget.token,
                                                   )));
                                       if (result != null) {
                                         setState(() {});
@@ -86,7 +91,8 @@ class _HomeState extends State<Home> {
                                     child: Text('Hapus'),
                                     onPressed: () {
                                       apiServices
-                                          .delete(snapshot.data[i].id)
+                                          .delete(
+                                              snapshot.data[i].id, widget.token)
                                           .then((value) {
                                         if (value) {
                                           setState(() {});
