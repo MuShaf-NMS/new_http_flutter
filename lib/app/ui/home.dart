@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
                                                   UpdateSiswa(
-                                                    id: snapshot.data[i].id,
+                                                    siswa: snapshot.data[i],
                                                     token: widget.token,
                                                   )));
                                       if (result != null) {
